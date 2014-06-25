@@ -76,11 +76,11 @@ public class SQLManager {
 	}
 	
 	/**
-	 * Search the table for the value in a column.
-	 * Eg. in a table of:
-	 * |ID|Money|
-	 * |storm|30k|
-	 * |bjarn|2k|
+	 * Search the table for the value in a column. <br>
+	 * Eg. in a table of: <br>
+	 * |ID|Money| <br>
+	 * |storm|30k| <br>
+	 * |bjarn|2k| <br>
 	 * doing searchTable("tablename", "ID", "storm", "Money") Would return '30k'
 	 * 
 	 * @param tableName The table to search

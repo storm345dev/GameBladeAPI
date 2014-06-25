@@ -3,6 +3,11 @@ package org.stormdev.gbapi.storm.misc;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * Simple class for wrapping objects to allow them to be final, yet mutable.
+ *
+ * @param <T> The type of object to wrap
+ */
 public class ObjectWrapper<T> {
 	private volatile T value = null;
 	

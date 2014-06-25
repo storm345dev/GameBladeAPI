@@ -10,6 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.Team;
 
+/**
+ * Using scoreboards to set player prefixes, doesn't work if the scoreboard is in use for other stuff
+ *
+ */
 public class PrefixManager implements Listener {
 	
 	public PrefixManager(){
@@ -20,6 +24,13 @@ public class PrefixManager implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, Bukkit.getPluginManager().getPlugins()[0]);
 	}
 	
+	/**
+	 * Set a player's prefix and suffix
+	 * 
+	 * @param player The player to set the prefix and suffix of.
+	 * @param prefix The prefix to set
+	 * @param suffix The suffix to set
+	 */
 	public void setPrefixSuffix(Player player, String prefix, String suffix){
 		try {
 			String tName = player.getName();

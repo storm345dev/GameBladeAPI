@@ -29,8 +29,18 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * Get player's mojang UUIDs, use async
+ *
+ */
 public class PlayerIDFinder {
 	
+	/**
+	 * Get the mojang id of a player
+	 * 
+	 * @param player the player to get the id of
+	 * @return The Mojang ID
+	 */
 	public static MojangID getMojangID(Player player){
 		if(Bukkit.isPrimaryThread()){
 			throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
@@ -61,6 +71,12 @@ public class PlayerIDFinder {
 		return mid;
 	}
 	
+	/**
+	 * Get a player's mojang UUID, use the one for org.bukkit.Player when possible!
+	 * 
+	 * @param playername The name of the player
+	 * @return The MojangID of the player
+	 */
 	public static MojangID getMojangID(String playername){
 		if(Bukkit.isPrimaryThread()){
 			throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
@@ -94,6 +110,10 @@ public class PlayerIDFinder {
 	    return UUID.fromString(id.substring(0, 8) + "-" + id.substring(8, 12) + "-" + id.substring(12, 16) + "-" + id.substring(16, 20) + "-" +id.substring(20, 32));
 	}
 	
+	/**
+	 * Represents info on a player's mojang account
+	 *
+	 */
 	public static class MojangID {
 		private String id;
 		private String name;
@@ -101,9 +121,19 @@ public class PlayerIDFinder {
 			this.name = name;
 			this.id = id;
 		}
+		/**
+		 * Get the mojang UUID of the player
+		 * 
+		 * @return The mojang UUID as a string
+		 */
 		public String getID(){
 			return id;
 		}
+		/**
+		 * Get the name of the player
+		 * 
+		 * @return The name of the player
+		 */
 		public String getName(){
 			return name;
 		}

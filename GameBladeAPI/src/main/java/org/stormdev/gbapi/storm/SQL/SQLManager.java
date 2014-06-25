@@ -12,11 +12,21 @@ import java.util.Map;
 
 import org.bukkit.plugin.Plugin;
 
+/**
+ * 
+ * Amazing class for dealing with SQL tasks programmaticaly
+ *
+ */
 public class SQLManager {
 	private Connection c;
 	private MySQL sqlConnection;
 	private Plugin plugin;
 	
+	/**
+	 * Create an SQL handler for a database
+	 * @param sqlConnection The database
+	 * @param plugin Your plugin
+	 */
 	public SQLManager(MySQL sqlConnection, Plugin plugin){
 	        this.plugin = plugin;
 		c = sqlConnection.getConnection();
@@ -26,6 +36,9 @@ public class SQLManager {
 			plugin.getLogger().info("Error connecting to SQL database!");
 		}
 	}
+	/**
+	 * Close the connection to the database
+	 */
 	public void closeConnection(){
 		try {
 			c.close();
@@ -53,11 +66,30 @@ public class SQLManager {
 		}
 		return true;
 	}
+	/**
+	 * Check if connected to the database
+	 */
 	public void checkConnection(){
 		if(!checkConnectionStatus()){
 			plugin.getLogger().info("Lost connection to the SQL database! Is it offline?");
 		}
 	}
+	
+	/**
+	 * Search the table for the value in a column.
+	 * Eg. in a table of:
+	 * |ID|Money|
+	 * |storm|30k|
+	 * |bjarn|2k|
+	 * doing searchTable("tablename", "ID", "storm", "Money") Would return '30k'
+	 * 
+	 * @param tableName The table to search
+	 * @param keyName The name of the SQL table's PRIMARY key
+	 * @param keyValue The value of the SQL table's PRIMARY key to search for the row of
+	 * @param valueName The column name you want the value of
+	 * @return The value of the found cell, or null if not found
+	 * @throws SQLException SQL error
+	 */
 	public synchronized Object searchTable(String tableName, String keyName, String keyValue, String valueName) throws SQLException{
 		checkConnection();
 		Statement statement = c.createStatement();
@@ -78,12 +110,29 @@ public class SQLManager {
 		statement.close();
 		return found;
 	}
+	/**
+	 * Execute an SQL statement on the database
+	 * 
+	 * @param statement The statement to execute
+	 * @throws SQLException An SQL error
+	 */
 	public synchronized void exec(String statement) throws SQLException{
 		checkConnection();
 		PreparedStatement placeStatement = c.prepareStatement(statement);
 		placeStatement.executeUpdate();
 		placeStatement.close();
 	}
+	/**
+	 * Set a cell value in an SQL table
+	 * 
+	 * @param tableName The table to modify
+	 * @param keyName The table's PRIMARY KEY
+	 * @param keyValue The table's PRIMARY KEY's value to change the row of
+	 * @param valueName The name of the column to edit the value for
+	 * @param value The value of the cell to edit
+	 * @return True if edited, false if not
+	 * @throws SQLException SQL error
+	 */
 	public synchronized Boolean setInTable(String tableName, String keyName, String keyValue, String valueName, Object value) throws SQLException{
 		checkConnection();
 		String replace = "INSERT INTO "+tableName+" (`"+keyName+"`, `"+valueName+"`) VALUES (?, ?)"
@@ -105,6 +154,13 @@ public class SQLManager {
 		*/
 		return true;
 	}
+	/**
+	 * Creates a table, if not already existing, of the desired specification.
+	 * 
+	 * @param tableName The table's name
+	 * @param columns The columns of the table's names
+	 * @param types The types of the columns
+	 */
 	public synchronized void createTable(String tableName, String[] columns, String[] types){
 		checkConnection();
 		String query = null;
@@ -134,6 +190,14 @@ public class SQLManager {
 		}
 	}
 	
+	/**
+	 * Remove a row from the table
+	 * 
+	 * @param tableName The table name
+	 * @param keyName The name of the table's PRIMARY KEY
+	 * @param keyValue The value of the table's PRIMARY KEY at desired row
+	 * @throws SQLException SQL Error
+	 */
 	public synchronized void deleteFromTable(String tableName, String keyName, String keyValue) throws SQLException{
 		checkConnection();
 		String query = "DELETE FROM "+tableName+" WHERE ?=?;";
@@ -144,6 +208,16 @@ public class SQLManager {
 		placeStatement.close();
 	}
 	
+	/**
+	 * Gets a row from the table
+	 * 
+	 * @param tableName The table to get the row from
+	 * @param keyName The SQL table's PRIMARY KEY name
+	 * @param keyValue The SQL table's PRIMARY KEY value at the desired row
+	 * @param columns The columns you want to return the values for at that row
+	 * @return A map containing the column names and their values
+	 * @throws SQLException SQL Error
+	 */
 	public synchronized List<Map<Object, Object>> getRows(String tableName, String keyName, String keyValue, String... columns) throws SQLException{
 		checkConnection();
 		String query = "SELECT * FROM "+tableName+" WHERE ?=?;";
@@ -173,6 +247,14 @@ public class SQLManager {
 		return list;
 	}
 	
+	/**
+	 * Get all values of a column in a table
+	 * 
+	 * @param tableName The table
+	 * @param column The column name
+	 * @return A list of the values
+	 * @throws SQLException SQL Error
+	 */
 	public synchronized List<Object> getColumn(String tableName, String column) throws SQLException{
 		checkConnection();
 		Statement statement = c.createStatement();

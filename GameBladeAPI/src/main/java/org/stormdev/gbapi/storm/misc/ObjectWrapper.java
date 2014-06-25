@@ -1,4 +1,4 @@
-package net.stormdev.misc;
+package org.stormdev.gbapi.storm.misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;

@@ -1,4 +1,4 @@
-package org.stormdev.prefixes;
+package org.stormdev.gbapi.storm.prefixes;
 
 import java.util.ArrayList;
 import java.util.List;

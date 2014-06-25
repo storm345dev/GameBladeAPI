@@ -1,4 +1,4 @@
-package net.stormdev.UUIDAPI;
+package org.stormdev.gbapi.storm.UUIDAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;

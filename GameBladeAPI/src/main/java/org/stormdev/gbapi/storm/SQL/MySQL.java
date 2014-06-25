@@ -1,4 +1,4 @@
-package net.stormdev.SQL;
+package org.stormdev.gbapi.storm.SQL;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

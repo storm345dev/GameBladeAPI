@@ -14,6 +14,17 @@ public class ConfigBase implements Config {
 	
 	public ConfigBase(File file){
 		this.file = file;
+		
+		file.getParentFile().mkdirs();
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				//Oops
+				e.printStackTrace();
+			}
+		}
+		
 		try {
 			config.load(file);
 		} catch (Exception e) {

@@ -6,7 +6,7 @@
     <name>GameBladeAPI</name>
     <url>http://www.gameblade.net</url>
     <build>
-        <finalName>GameBlade</finalName>
+        <finalName>GameBladeAPI</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>

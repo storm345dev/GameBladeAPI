@@ -1,5 +1,6 @@
 package org.stormdev.gbapi.core;
 
+import org.bukkit.entity.Player;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 
@@ -23,4 +24,10 @@ public interface GameBladeAPI {
 	 * @return The ServerInfo for the current server
 	 */
 	public ServerInfo getCurrentServerInfo();
+	
+	/**
+	 * Shows the player the server selector to change servers
+	 * @param player The player to show it to
+	 */
+	public void showServerSelector(Player player);
 }

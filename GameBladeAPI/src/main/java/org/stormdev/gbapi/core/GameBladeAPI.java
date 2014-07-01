@@ -3,6 +3,7 @@ package org.stormdev.gbapi.core;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.servers.ServerInfo;
+import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 
 public interface GameBladeAPI {
@@ -37,4 +38,10 @@ public interface GameBladeAPI {
 	 * @return
 	 */
 	public Plugin getGBPlugin();
+	
+	/**
+	 * Get the handler for stars (COSMETIC only)
+	 * @return The handler for stars
+	 */
+	public Stars getStarsHandler();
 }

@@ -200,10 +200,11 @@ public class SQLManager {
 	 */
 	public synchronized void deleteFromTable(String tableName, String keyName, String keyValue) throws SQLException{
 		checkConnection();
-		String query = "DELETE FROM "+tableName+" WHERE ?=?;";
+		String query = "DELETE FROM "+tableName+" WHERE "+tableName+"."+keyName+"=?;";
 		PreparedStatement placeStatement = c.prepareStatement(query);
-		placeStatement.setString(1, keyName);
-		placeStatement.setString(2, keyValue);
+		//placeStatement.setString(1, tableName);
+		//placeStatement.setString(2, keyName);
+		placeStatement.setString(1, keyValue);
 		placeStatement.executeUpdate();
 		placeStatement.close();
 	}

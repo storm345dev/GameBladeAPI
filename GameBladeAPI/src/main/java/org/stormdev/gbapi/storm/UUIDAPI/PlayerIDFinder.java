@@ -75,7 +75,7 @@ public class PlayerIDFinder {
 	 * @return The Mojang UUID of the player
 	 */
 	public static MojangID getMojangID(String playername){
-		Player pl = Bukkit.getPlayer(playername);
+		Player pl = Bukkit.getPlayerExact(playername);
 		if(pl != null){
 			return getMojangID(pl);
 		}

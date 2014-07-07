@@ -3,6 +3,8 @@ package org.stormdev.gbapi.core;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
+import org.stormdev.gbapi.bans.PunishmentLogs;
+import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
@@ -51,4 +53,16 @@ public interface GameBladeAPI {
 	 * @return The handler for bans
 	 */
 	public BanHandler getBans();
+	
+	/**
+	 * Get the handler for managing cosmetics
+	 * @return The cosmetic handler
+	 */
+	public Cosmetics getCosmeticsHandler();
+	
+	/**
+	 * Get the handler for logging punishments
+	 * @return The handler for logging punishments
+	 */
+	public PunishmentLogs getPunishmentLogger();
 }

@@ -83,6 +83,14 @@
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
+        <repository>
+  <id>fanciful-mvn-repo</id>
+  <url>https://raw.github.com/mkremins/fanciful/mvn-repo/</url>
+  <snapshots>
+    <enabled>true</enabled>
+    <updatePolicy>always</updatePolicy>
+  </snapshots>
+</repository>
     </repositories>
     <dependencies>
     	<dependency>
@@ -99,6 +107,12 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+ 
+<dependency>
+  <groupId>mkremins</groupId>
+  <artifactId>fanciful</artifactId>
+  <version>0.1.5</version>
+</dependency>
     </dependencies>
     <distributionManagement>
         <repository>

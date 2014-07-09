@@ -38,6 +38,12 @@ public interface GameBladeAPI {
 	public void showServerSelector(Player player);
 	
 	/**
+	 * Shows the player the cosmetic panel to edit their cosmetics
+	 * @param player The player to show it to
+	 */
+	public void showCosmeticPanel(Player player);
+	
+	/**
 	 * Get the plugin running the API
 	 * @return
 	 */

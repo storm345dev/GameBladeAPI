@@ -8,6 +8,7 @@ import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
+import org.stormdev.gbapi.villagers.VillagerManager;
 
 public interface GameBladeAPI {
 	/**
@@ -65,4 +66,10 @@ public interface GameBladeAPI {
 	 * @return The handler for logging punishments
 	 */
 	public PunishmentLogs getPunishmentLogger();
+	
+	/**
+	 * Get the VillagerManager for managing interact-able villagers
+	 * @return The VillagerManager
+	 */
+	public VillagerManager getMenuVillagerManager();
 }

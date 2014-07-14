@@ -29,6 +29,7 @@ public class IconMenu implements Listener {
 	private ItemStack[] optionIcons;
 	private Boolean enabled = true;
 	private String metaData;
+	private boolean destroyOnClose = false;
 
 	public IconMenu(String name, int size, OptionClickEventHandler handler,
 			Plugin plugin) {
@@ -39,7 +40,16 @@ public class IconMenu implements Listener {
 		this.optionNames = new String[size];
 		this.optionIcons = new ItemStack[size];
 		this.metaData = "menu." + UUID.randomUUID().toString();
+		if(this.plugin == null){
+			System.out.println("UH OH Plugin null in iconmenu = memory leak");
+		}
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	
+	public IconMenu(String name, int size, OptionClickEventHandler handler,
+			Plugin plugin, boolean destroyOnClose) {
+		this(name, size, handler, plugin);
+		this.destroyOnClose = destroyOnClose;
 	}
 
 	public IconMenu setOption(int position, ItemStack icon, String name,
@@ -70,19 +80,28 @@ public class IconMenu implements Listener {
 	}
 
 	public void destroy() {
-		HandlerList.unregisterAll(this);
+		try {
+			HandlerList.unregisterAll(this);
+		} catch (Exception e) {
+			System.out.println("UH OH Bukkit didn't want to unregister the IconMenu's events! Therefore MEMORY LEAK!!!");
+			e.printStackTrace();
+		}
 		handler = null;
-		plugin = null;
 		optionNames = null;
 		optionIcons = null;
 		enabled = false;
-		metaData = null;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	void invClose(InventoryCloseEvent event){
 		if(event.getPlayer().hasMetadata(metaData)){
-			event.getPlayer().removeMetadata(metaData, plugin);
+			if(this.plugin == null){
+				Bukkit.broadcastMessage("PLUGIN NULL HALP HALP");
+			}
+			event.getPlayer().removeMetadata(metaData, this.plugin);
+			if(destroyOnClose){
+				destroy();
+			}
 		}
 	}
 

@@ -69,9 +69,11 @@ public class PagedMenu {
 	public void open(final Player player){
 		player.sendMessage(ChatColor.GRAY+"Opening...");
 		Bukkit.getScheduler().runTaskAsynchronously(APIProvider.getAPI().getGBPlugin(), new Runnable(){
-			final List<MenuItem> items = details.getDisplayItems(player);
+			
 			@Override
 			public void run() {
+				final List<MenuItem> items = details.getDisplayItems(player);
+				
 				Bukkit.getScheduler().runTask(plug, new Runnable(){
 
 					@Override

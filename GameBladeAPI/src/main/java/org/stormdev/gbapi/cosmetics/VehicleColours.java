@@ -1,14 +1,16 @@
 package org.stormdev.gbapi.cosmetics;
 
 import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Dye;
+import org.bukkit.material.Wool;
 
 public class VehicleColours {
 	public static ItemStack getItemStack(DyeColor color){
-		Dye d = new Dye();
-		d.setColor(color);
-		return d.toItemStack();
+		Wool w = new Wool();
+		w.setColor(color);
+		ItemStack wi = w.toItemStack();
+		return new ItemStack(Material.STAINED_CLAY, 1, wi.getDurability());
 	}
 	
 	public static String getCorrectName(String colourName){

@@ -10,6 +10,13 @@ import org.bukkit.entity.Player;
  *
  */
 public interface Cosmetics {
+	
+	/**
+	 * Get the manager for setting and retrieving active cosmetics such as hats and vehicle colour
+	 * @return The manager for ..
+	 */
+	public ActiveCosmeticManager getActiveCosmeticManager();
+	
 	/**
 	 * Check if a player owns a cosmetic
 	 * USE ASYNCHRONOUSLY

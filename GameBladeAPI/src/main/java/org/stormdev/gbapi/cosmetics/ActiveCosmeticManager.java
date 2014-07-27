@@ -47,4 +47,10 @@ public interface ActiveCosmeticManager {
 	 * @param player The player to fill the vehicle of
 	 */
 	public void fillMinecartVehicle(Minecart cart, Player player);
+	
+	/**
+	 * Clears a minecart of it's cosmetics
+	 * @param cart The cart to clear
+	 */
+	public void clearMinecartOfCosmetics(Minecart cart);
 }

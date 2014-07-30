@@ -51,5 +51,17 @@ public interface Cosmetics {
 	 */
 	public List<String> getOwnedCosmeticIds(Player player);
 	
+	/**
+	 * Clear a players' hat
+	 * @param player The player
+	 */
+	public void clearHat(Player player);
+		
+	/**
+	 * Recalculate a players' hat
+	 * @param player the player
+	 */
+	public void recalculateHat(Player player);
+	
 	
 }

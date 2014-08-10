@@ -62,6 +62,7 @@ public class PlayerIDFinder {
 				APIProvider.getAPI().getGBPlugin().getLogger().info("FAILED to set correct UUID for "+player.getName()+"! They're using UUID: "+player.getUniqueId());
 			}
 		} catch (Exception e) {
+			APIProvider.getAPI().getGBPlugin().getLogger().info("FAILED to set correct UUID for "+player.getName()+"! They're using UUID: "+player.getUniqueId());
 			e.printStackTrace();
 			//Oh well
 		}

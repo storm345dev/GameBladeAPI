@@ -47,7 +47,12 @@ public class PlayerIDFinder {
 			throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
 		}
 		if(player.hasMetadata("uuid")){
-			Object o = player.getMetadata("uuid").get(0).value();
+			Object o;
+			try {
+				o = player.getMetadata("uuid").get(0).value();
+			} catch (Exception e) {
+				o = "";
+			}
 			if(o instanceof MojangID){
 				return (MojangID) player.getMetadata("uuid").get(0).value();
 			}

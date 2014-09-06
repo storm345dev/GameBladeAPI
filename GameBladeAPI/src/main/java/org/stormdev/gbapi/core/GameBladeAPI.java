@@ -78,4 +78,6 @@ public interface GameBladeAPI {
 	 * @return The VillagerManager
 	 */
 	public VillagerManager getMenuVillagerManager();
+	
+	public boolean is1_8(Player player);
 }

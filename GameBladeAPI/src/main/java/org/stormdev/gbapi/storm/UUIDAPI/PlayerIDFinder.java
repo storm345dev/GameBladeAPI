@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
@@ -35,6 +36,13 @@ import com.google.common.collect.ImmutableList;
  *
  */
 public class PlayerIDFinder {
+	
+	public static void main(String[] args){
+		//test it
+		
+		System.out.println(retMojangID("storm345").id);
+		System.out.println(retMojangID("storm345dev").id);
+	}
 	
 	/**
 	 * Get the Mojang UUID of a player, DO NOT use in the main bukkit thread
@@ -89,8 +97,12 @@ public class PlayerIDFinder {
 	}
 	
 	private static MojangID retMojangID(String playername){
-		if(Bukkit.isPrimaryThread()){
-			throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
+		try {
+			if(Bukkit.isPrimaryThread()){
+				throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
+			}
+		} catch (NullPointerException e1) {
+			//Ran outside of bukkit
 		}
 		
 		String id;
@@ -100,17 +112,32 @@ public class PlayerIDFinder {
 		} catch (Exception e) {
 			id = null;
 		}
-		if(id == null){
+		if(id == null || id.equalsIgnoreCase("null")){
+			System.out.println("FishBans was unable to provide mojang UUID for "+playername+"!");
 			try {
-				id = SwordPVPUUIDGet.getMojangAccountID(playername);
+				id = toUUIDString(UUIDFetcher.getUUIDOf(playername));
+				
 			} catch (Exception e) {
 				id = null;
 			}
+			if(id != null){
+				System.out.println("Minecraft resolved UUID for "+playername);
+			}
 			if(id == null){ //Use Minecraft one
+				System.out.println("Minecraft was unable to provide mojang UUID for "+playername+"!");
 				try {
-					UUIDFetcher.getUUIDOf(playername);
+					id = SwordPVPUUIDGet.getMojangAccountID(playername);
 				} catch (Exception e) {
-					return null;
+					id = null;
+				}
+				if(id != null){
+					System.out.println("SwordPVP resolved UUID for "+playername);
+				}
+				if(id == null){
+					System.out.println("SwordPVP was unable to provide mojang UUID for "+playername+"!");
+					System.out.println("Nobody was unable to provide UUID for "+playername+"!");
+					System.out.println("Assigning player random UUID for session...");
+					id = toUUIDString(UUID.randomUUID());
 				}
 			}
 		}
@@ -125,6 +152,10 @@ public class PlayerIDFinder {
 	 */
 	public static UUID getAsUUID(String id) {
 	    return UUID.fromString(id.substring(0, 8) + "-" + id.substring(8, 12) + "-" + id.substring(12, 16) + "-" + id.substring(16, 20) + "-" +id.substring(20, 32));
+	}
+	
+	public static String toUUIDString(UUID id){
+		return id.toString().replaceAll(Pattern.quote("-"), "");
 	}
 	
 	/**
@@ -304,17 +335,40 @@ class SwordPVPUUIDGet {
 	
 	private static String query(String username) throws IOException{
 		URL url = new URL(URL_BASE + username);
-        URLConnection uc = url.openConnection();
+        /*HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+        uc.setRequestMethod("GET");
         uc.setUseCaches(false);
         uc.setDefaultUseCaches(false);
         uc.addRequestProperty("User-Agent", "Mozilla/5.0");
         uc.addRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
         uc.addRequestProperty("Pragma", "no-cache");
+        uc.setReadTimeout(1500); //1.5 seconds
 
         // Parse it
         String json = new Scanner(uc.getInputStream(), "UTF-8").useDelimiter("\\A").next();
         JsonParser parser = new JsonParser();
-        Object obj = parser.parse(json);
+        Object obj = parser.parse(json);*/
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		
+		con.setUseCaches(false);
+        con.setDoInput(true);
+        con.setDoOutput(true);
+        con.setReadTimeout(3000); //3s timeout
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String line;
+        StringBuffer response = new StringBuffer();
+
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+        }
+
+        reader.close();
+        String reply = response.toString();
+        JsonParser parser = new JsonParser();
+        Object obj = parser.parse(reply);
         return ((JsonObject) ((JsonArray) ((JsonObject) obj).get("profiles")).get(0)).get("id").getAsString();
 	}
 }

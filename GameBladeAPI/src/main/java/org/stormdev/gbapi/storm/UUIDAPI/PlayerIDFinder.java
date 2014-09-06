@@ -8,13 +8,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
@@ -113,7 +111,7 @@ public class PlayerIDFinder {
 			id = null;
 		}
 		if(id == null || id.equalsIgnoreCase("null")){
-			System.out.println("FishBans was unable to provide mojang UUID for "+playername+"!");
+			//System.out.println("FishBans was unable to provide mojang UUID for "+playername+"!");
 			try {
 				id = toUUIDString(UUIDFetcher.getUUIDOf(playername));
 				
@@ -121,20 +119,20 @@ public class PlayerIDFinder {
 				id = null;
 			}
 			if(id != null){
-				System.out.println("Minecraft resolved UUID for "+playername);
+				//System.out.println("Minecraft resolved UUID for "+playername);
 			}
 			if(id == null){ //Use Minecraft one
-				System.out.println("Minecraft was unable to provide mojang UUID for "+playername+"!");
+//				System.out.println("Minecraft was unable to provide mojang UUID for "+playername+"!");
 				try {
 					id = SwordPVPUUIDGet.getMojangAccountID(playername);
 				} catch (Exception e) {
 					id = null;
 				}
 				if(id != null){
-					System.out.println("SwordPVP resolved UUID for "+playername);
+//					System.out.println("SwordPVP resolved UUID for "+playername);
 				}
 				if(id == null){
-					System.out.println("SwordPVP was unable to provide mojang UUID for "+playername+"!");
+//					System.out.println("SwordPVP was unable to provide mojang UUID for "+playername+"!");
 					System.out.println("Nobody was unable to provide UUID for "+playername+"!");
 					System.out.println("Assigning player random UUID for session...");
 					id = toUUIDString(UUID.randomUUID());

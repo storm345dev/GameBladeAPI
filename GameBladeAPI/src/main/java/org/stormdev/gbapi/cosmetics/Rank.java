@@ -8,7 +8,9 @@ VIP("Vip", 1, "gameblade.vip"),
 VIP_PLUS("VIP+", 2, "gameblade.vipplus"), 
 PREMIUM("Premium", 3, "gameblade.premium"), 
 PREMIUM_PLUS("Premium+", 4, "gameblade.premiumplus"),
-STAFF("Staff", 5, "gameblade.staff");
+ULTIMATE("Staff", 5, "gameblade.ultimate"),
+STAFF("Staff", 6, "gameblade.staff");
+
 
 	private int pos;
 	private String name;

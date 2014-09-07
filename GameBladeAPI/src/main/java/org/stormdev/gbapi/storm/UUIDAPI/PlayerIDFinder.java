@@ -66,7 +66,8 @@ public class PlayerIDFinder {
 		}
 		MojangID mid = retMojangID(player.getName());
 		player.setMetadata("uuid", new SimpleMeta(mid, Bukkit.getPluginManager().getPlugins()[0])); //Replace plugin with yours to use CORRECTLY, but it doesn't matter much
-		try {
+		
+	/*	try {
 			UUID id = getAsUUID(mid.getID());
 			PlayerReflect.setPlayerUUID(player, id);
 			if(!player.getUniqueId().toString().equals(id.toString())) {
@@ -76,7 +77,7 @@ public class PlayerIDFinder {
 			APIProvider.getAPI().getGBPlugin().getLogger().info("FAILED to set correct UUID for "+player.getName()+"! They're using UUID: "+player.getUniqueId());
 			e.printStackTrace();
 			//Oh well
-		}
+		}*/
 		return mid;
 	}
 	

@@ -57,7 +57,7 @@ public class LinkShortener {
 
 			reader.close();
 			String reply = response.toString();
-			System.out.println(reply);
+//			System.out.println(reply);
 			JsonParser parser = new JsonParser();
 			JsonObject obj = (JsonObject) parser.parse(reply);
 			if(obj.has("error")){

@@ -36,7 +36,7 @@ public class LinkShortener {
 		Sch.notSync();
 		try {
 			String urlEncoded = URLEncoder.encode(location, Charsets.UTF_8.name());
-			String aliasEncoded = URLEncoder.encode(location, Charsets.UTF_8.name());
+			String aliasEncoded = URLEncoder.encode(customAlias, Charsets.UTF_8.name());
 			URL url = new URL("http://gamebla.de/api?api=SFrNtvUxFojf&url="+urlEncoded+"&custom="+aliasEncoded);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
@@ -69,7 +69,8 @@ public class LinkShortener {
 				}
 				else {
 					if(obj.has("short")){
-						return URLDecoder.decode(obj.get("short").getAsString(), Charsets.UTF_8.name());
+						String out = obj.get("short").getAsString();
+						return out;
 					}
 				}
 			}

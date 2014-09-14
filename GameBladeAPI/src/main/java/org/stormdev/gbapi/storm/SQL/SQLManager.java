@@ -30,6 +30,7 @@ public class SQLManager {
 	public SQLManager(MySQL sqlConnection, Plugin plugin){
 	        this.plugin = plugin;
 		c = sqlConnection.getConnection();
+		this.sqlConnection = sqlConnection;
 		try {
 			c.setAutoCommit(true);
 		} catch (Exception e) {

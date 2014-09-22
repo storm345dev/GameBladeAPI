@@ -51,6 +51,9 @@ public class MySQL {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = (Connection) DriverManager.getConnection(url, user, password);
+			con.setAutoReconnect(true);
+			con.setAutoReconnectForConnectionPools(true);
+			con.setAutoReconnectForPools(true);
 		} catch (ClassNotFoundException e) {
 			plugin.getLogger().info("JDBC SQL driver not found! Please install the"
 					+ " version required for your OS to run the plugin!");

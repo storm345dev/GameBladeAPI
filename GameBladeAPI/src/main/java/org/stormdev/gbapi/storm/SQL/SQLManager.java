@@ -30,8 +30,11 @@ public class SQLManager {
 	public SQLManager(MySQL sqlConnection, Plugin plugin){
 	        this.plugin = plugin;
 		c = sqlConnection.getConnection();
-		this.sqlConnection = sqlConnection;
 		try {
+			if (c == null)
+				throw new Exception("SQL is not connected!");
+			
+			this.sqlConnection = sqlConnection;
 			c.setAutoCommit(true);
 		} catch (Exception e) {
 			plugin.getLogger().info("Error connecting to SQL database!");

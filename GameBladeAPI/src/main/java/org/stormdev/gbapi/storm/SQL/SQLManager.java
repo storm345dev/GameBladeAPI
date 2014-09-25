@@ -53,8 +53,9 @@ public class SQLManager {
 	private boolean checkConnectionStatus(){
 		try {
 			if(!c.isValid(1000)){
-				c.close();
+				closeConnection();
 				sqlConnection.connect(); //Reconnect
+				c = sqlConnection.getConnection();
 				try {
 					c.setAutoCommit(true);
 				} catch (Exception e) {

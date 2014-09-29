@@ -79,5 +79,12 @@ public interface GameBladeAPI {
 	 */
 	public VillagerManager getMenuVillagerManager();
 	
+	/**
+	 * Send a player to a server, silently fails
+	 * @param player Player player
+	 * @param server String name of the server to send to
+	 */
+	public void sendToServer(Player player, String server);
+	
 	public boolean is1_8(Player player);
 }

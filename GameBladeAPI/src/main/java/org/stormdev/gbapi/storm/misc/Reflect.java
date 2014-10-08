@@ -57,6 +57,17 @@ public class Reflect {
 		}
 		return c;
 	}
+	
+	public static Class<?> getCBClass(String ClassName) {
+		String className = "org.bukkit.craftbukkit." + version + ClassName;
+		Class<?> c = null;
+		try {
+			c = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
 
 	public static Object getHandle(World world) {
 		Object nms_entity = null;

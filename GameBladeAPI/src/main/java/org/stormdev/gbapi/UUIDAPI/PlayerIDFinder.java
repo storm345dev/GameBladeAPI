@@ -167,7 +167,7 @@ public class PlayerIDFinder {
 		private String name;
 		private MojangID(String name, String id){
 			this.name = name;
-			this.id = id;
+			this.id = id.replaceAll("-", "");
 		}
 		/**
 		 * Get the UUID of the player

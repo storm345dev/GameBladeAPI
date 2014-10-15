@@ -62,7 +62,7 @@ public class PlayerIDFinder {
 				o = "";
 			}
 			if(o instanceof MojangID){
-				return (MojangID) player.getMetadata("uuid").get(0).value();
+				return (MojangID) o;
 			}
 			player.removeMetadata("uuid", Bukkit.getPluginManager().getPlugins()[0]);
 		}

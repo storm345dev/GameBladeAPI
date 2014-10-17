@@ -5,6 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
 import org.stormdev.gbapi.bans.PunishmentLogs;
 import org.stormdev.gbapi.cosmetics.Cosmetics;
+import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
@@ -85,6 +86,12 @@ public interface GameBladeAPI {
 	 * @param server String name of the server to send to
 	 */
 	public void sendToServer(Player player, String server);
+	
+	/**
+	 * Get the manager for handling player notifications
+	 * @return The manager for handling player notifications
+	 */
+	public Notifications getNotificationsManager();
 	
 	public boolean is1_8(Player player);
 }

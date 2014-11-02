@@ -18,6 +18,7 @@ import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
@@ -49,6 +50,13 @@ public class PlayerIDFinder {
 	 * @return The Mojang UUID of the player
 	 */
 	public static MojangID getMojangID(Player player){
+		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
+			UUID uid = player.getUniqueId();
+			if(uid != null){
+				String uuid = toUUIDString(uid);
+				return new MojangID(player.getName(), uuid);
+			}
+		}
 		if(Bukkit.isPrimaryThread()){
 			throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
 		}
@@ -81,6 +89,11 @@ public class PlayerIDFinder {
 		return mid;
 	}
 	
+	public static void setMeta(Player player, MojangID mid){
+		player.removeMetadata("uuid", APIProvider.getAPI().getGBPlugin());
+		player.setMetadata("uuid", new SimpleMeta(mid, APIProvider.getAPI().getGBPlugin()));
+	}
+	
 	/**
 	 * Get the Mojang UUID of a player, DO NOT use in the main bukkit thread
 	 * 
@@ -96,6 +109,17 @@ public class PlayerIDFinder {
 	}
 	
 	private static MojangID retMojangID(String playername){
+		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
+			OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
+			if(op != null){
+				UUID uid = op.getUniqueId();
+				if(uid != null){
+					String uuid = toUUIDString(uid);
+					return new MojangID(playername, uuid);
+				}
+			}
+		}
+		
 		try {
 			if(Bukkit.isPrimaryThread()){
 				throw new RuntimeException("Please DO NOT look up mojang IDs in the primary thread!");
@@ -164,7 +188,7 @@ public class PlayerIDFinder {
 	public static class MojangID {
 		private String id;
 		private String name;
-		private MojangID(String name, String id){
+		public MojangID(String name, String id){
 			this.name = name;
 			this.id = id.replaceAll("-", "");
 		}

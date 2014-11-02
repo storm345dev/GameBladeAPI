@@ -8,13 +8,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
@@ -68,7 +66,8 @@ public class PlayerIDFinder {
 		}
 		MojangID mid = retMojangID(player.getName());
 		player.setMetadata("uuid", new SimpleMeta(mid, Bukkit.getPluginManager().getPlugins()[0])); //Replace plugin with yours to use CORRECTLY, but it doesn't matter much
-		try {
+		
+	/*	try {
 			UUID id = getAsUUID(mid.getID());
 			PlayerReflect.setPlayerUUID(player, id);
 			if(!player.getUniqueId().toString().equals(id.toString())) {
@@ -78,8 +77,13 @@ public class PlayerIDFinder {
 			APIProvider.getAPI().getGBPlugin().getLogger().info("FAILED to set correct UUID for "+player.getName()+"! They're using UUID: "+player.getUniqueId());
 			e.printStackTrace();
 			//Oh well
-		}
+		}*/
 		return mid;
+	}
+	
+	public static void setMeta(Player player, MojangID mid){
+		player.removeMetadata("uuid", APIProvider.getAPI().getGBPlugin());
+		player.setMetadata("uuid", new SimpleMeta(mid, APIProvider.getAPI().getGBPlugin()));
 	}
 	
 	/**
@@ -165,7 +169,7 @@ public class PlayerIDFinder {
 	public static class MojangID {
 		private String id;
 		private String name;
-		private MojangID(String name, String id){
+		public MojangID(String name, String id){
 			this.name = name;
 			this.id = id.replaceAll("-", "");
 		}

@@ -8,6 +8,7 @@ import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
+import org.stormdev.gbapi.storm.misc.State;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbapi.villagers.VillagerManager;
 
@@ -92,6 +93,8 @@ public interface GameBladeAPI {
 	 * @return The manager for handling player notifications
 	 */
 	public Notifications getNotificationsManager();
+	
+	public State isEntityUUIDsCorrect();
 	
 	public boolean is1_8(Player player);
 }

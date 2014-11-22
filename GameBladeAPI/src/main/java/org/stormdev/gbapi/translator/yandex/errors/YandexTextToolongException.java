@@ -1,4 +1,4 @@
-package org.stormdev.translator.yandex.errors;
+package org.stormdev.gbapi.translator.yandex.errors;
 
 public class YandexTextToolongException extends YandexException {
 	private static final long serialVersionUID = 1L;

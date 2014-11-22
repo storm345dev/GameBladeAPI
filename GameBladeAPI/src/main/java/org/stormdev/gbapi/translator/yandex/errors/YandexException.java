@@ -1,4 +1,4 @@
-package org.stormdev.translator.yandex.errors;
+package org.stormdev.gbapi.translator.yandex.errors;
 
 import java.io.IOException;
 

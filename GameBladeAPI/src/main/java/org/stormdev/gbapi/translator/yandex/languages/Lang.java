@@ -1,6 +1,6 @@
-package org.stormdev.translator.yandex.languages;
+package org.stormdev.gbapi.translator.yandex.languages;
 
-import org.stormdev.translator.yandex.errors.YandexUnsupportedLanguageException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexUnsupportedLanguageException;
 
 public enum Lang {
 	ENGLISH("English", "en"), 

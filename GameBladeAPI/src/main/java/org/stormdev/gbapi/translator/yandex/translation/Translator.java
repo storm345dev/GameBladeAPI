@@ -1,11 +1,11 @@
-package org.stormdev.translator.yandex.translation;
+package org.stormdev.gbapi.translator.yandex.translation;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.stormdev.translator.yandex.errors.YandexException;
-import org.stormdev.translator.yandex.errors.YandexUnsupportedLanguageException;
-import org.stormdev.translator.yandex.languages.Lang;
+import org.stormdev.gbapi.translator.yandex.errors.YandexException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexUnsupportedLanguageException;
+import org.stormdev.gbapi.translator.yandex.languages.Lang;
 
 public class Translator {
 	private static YandexConnection con;

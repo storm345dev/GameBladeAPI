@@ -1,4 +1,4 @@
-package org.stormdev.translator.yandex.translation;
+package org.stormdev.gbapi.translator.yandex.translation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,16 +15,16 @@ import javax.net.ssl.HttpsURLConnection;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
-import org.stormdev.translator.yandex.errors.YandexBlockedKeyException;
-import org.stormdev.translator.yandex.errors.YandexCharLimitExceededException;
-import org.stormdev.translator.yandex.errors.YandexException;
-import org.stormdev.translator.yandex.errors.YandexInvalidKeyException;
-import org.stormdev.translator.yandex.errors.YandexRequestLimitExceededException;
-import org.stormdev.translator.yandex.errors.YandexTextToolongException;
-import org.stormdev.translator.yandex.errors.YandexUnknownException;
-import org.stormdev.translator.yandex.errors.YandexUnprocessableTextException;
-import org.stormdev.translator.yandex.errors.YandexUnsupportedLanguageException;
-import org.stormdev.translator.yandex.languages.Lang;
+import org.stormdev.gbapi.translator.yandex.errors.YandexBlockedKeyException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexCharLimitExceededException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexInvalidKeyException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexRequestLimitExceededException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexTextToolongException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexUnknownException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexUnprocessableTextException;
+import org.stormdev.gbapi.translator.yandex.errors.YandexUnsupportedLanguageException;
+import org.stormdev.gbapi.translator.yandex.languages.Lang;
 
 public class YandexConnection {
 	public String API_KEY = "trnsl.1.1.20141121T183745Z.640aedb93bcd04b7.1ac5bb0cabfa32bb8ffffb3fdb9eacd147685efb";

@@ -58,6 +58,24 @@ public class IconMenu implements Listener {
 		optionIcons[position] = setItemNameAndLore(icon, name, info);
 		return this;
 	}
+	
+	public IconMenu appendOption(ItemStack icon, String name, List<String> info){
+		int position = 0;
+		for(int i=position;position<optionIcons.length;i++){
+			try {
+				if(optionIcons[i] == null){
+					break;
+				}
+			} catch (Exception e) {
+				break;
+			}
+			position++;
+		}
+		
+		optionNames[position] = name;
+		optionIcons[position] = setItemNameAndLore(icon, name, info);
+		return this;
+	}
 
 	public IconMenu setOption(int position, ItemStack icon, String name,
 			List<String> info) {
@@ -192,6 +210,14 @@ public class IconMenu implements Listener {
 		public void setWillDestroy(boolean destroy) {
 			this.destroy = destroy;
 		}
+	}
+	
+	public ItemStack[] getOptions(){
+		return this.optionIcons;
+	}
+	
+	public void setOptions(ItemStack[] opts){
+		this.optionIcons = opts;
 	}
 
 	public ItemStack setItemNameAndLore(ItemStack item, String name,

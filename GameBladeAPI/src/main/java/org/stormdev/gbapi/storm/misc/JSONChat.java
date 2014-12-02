@@ -7,13 +7,14 @@ import org.bukkit.entity.Player;
 public class JSONChat {
 	public static void send(Player player, String chat){
 		try {
+			
 			Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
 			Class<?> PacketPlayOutChat = Reflect.getNMSClass("PacketPlayOutChat");
 			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
 			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
 			
 			Object o = aChatSerializer.invoke(null, chat);
-			Object packet = PacketPlayOutChat.getConstructor(IChatBaseComponent, boolean.class).newInstance(IChatBaseComponent.cast(o), true);
+			Object packet = PacketPlayOutChat.getConstructor(IChatBaseComponent).newInstance(IChatBaseComponent.cast(o));
 			Reflect.sendPacket(player, packet);
 			
 		} catch (Exception e) {

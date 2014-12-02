@@ -120,7 +120,6 @@ public class IconMenu implements Listener {
 			if(!event.getInventory().getName().equals(name)){
 				return;
 			}
-			Bukkit.broadcastMessage("PLAYER CLOSED INV, META REMOVED: "+metaData);
 			event.getPlayer().removeMetadata(metaData, this.plugin);
 			if(destroyOnClose){
 				destroy();

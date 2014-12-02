@@ -80,8 +80,8 @@ public class LinkShortener {
 		} catch (MalformedURLException e) {
 			throw new ShorteningError("URL was malformed!");
 		} catch (Exception e) {
-			e.printStackTrace();
-			//throw new ShorteningError(e.getMessage()); //TODO ERROR
+			System.out.println("LINK SHORTENING ERROR: "+e.getMessage()+"! Is the service offline?");
+			//throw new ShorteningError(e.getMessage());
 		}
 		throw new ShorteningError("No URL response!");
 	}

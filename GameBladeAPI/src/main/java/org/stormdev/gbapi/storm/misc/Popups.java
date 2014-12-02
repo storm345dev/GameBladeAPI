@@ -1,16 +1,38 @@
 package org.stormdev.gbapi.storm.misc;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import net.minecraft.server.v1_8_R1.EnumTitleAction;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
+
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.entity.Player;
-import org.spigotmc.ProtocolInjector;
-import org.spigotmc.ProtocolInjector.PacketTitle;
 import org.stormdev.gbapi.core.APIProvider;
 
 public class Popups {
+	public static enum TitleAction {
+		CLEAR(EnumTitleAction.CLEAR),
+		RESET(EnumTitleAction.RESET),
+		SUBTITLE(EnumTitleAction.SUBTITLE),
+		TIMES(EnumTitleAction.TIMES),
+		TITLE(EnumTitleAction.TITLE);
+		
+		private EnumTitleAction val;
+		private TitleAction(EnumTitleAction val){
+			this.val = val;
+		}
+		
+		public EnumTitleAction getVal(){
+			return this.val;
+		}
+	}
+	
 	public static void setTabHeader(Player player, String header, String footer){
+		
 		if(!APIProvider.getAPI().is1_8(player)){
 			return;
 		}
@@ -22,28 +44,52 @@ public class Popups {
 			Object head = aChatSerializer.invoke(null, new Gson().toJson(header));
 			Object foot = aChatSerializer.invoke(null, new Gson().toJson(footer));
 			
-			Constructor<?> con = ProtocolInjector.PacketTabHeader.class.getConstructor(IChatBaseComponent, IChatBaseComponent);
+			/*Class<?> c = PacketPlayOutPlayerListHeaderFooter.class;
+			for(Constructor<?> con:c.getDeclaredConstructors()){
+				StringBuilder sb = new StringBuilder();
+				for(Class<?> param:con.getParameterTypes()){
+					sb.append("[").append(param.getName()).append("]");
+				}
+				System.out.println(sb.toString());
+			}*/
 			
-			Reflect.sendPacket(player, con.newInstance(IChatBaseComponent.cast(head), IChatBaseComponent.cast(foot)));
+			try {
+				PacketPlayOutPlayerListHeaderFooter pth = new PacketPlayOutPlayerListHeaderFooter();
+				
+				Field headerField = pth.getClass().getDeclaredField("a");
+				headerField.setAccessible(true);
+				headerField.set(pth, IChatBaseComponent.cast(head));
+				
+				Field footerField = pth.getClass().getDeclaredField("b");
+				footerField.setAccessible(true);
+				footerField.set(pth, IChatBaseComponent.cast(foot));
+				
+				Reflect.sendPacket(player, pth);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public static void showTitle(Player player, String title, int fadeIn, int stay, int fadeOut, ProtocolInjector.PacketTitle.Action action){
+	public static void showTitle(Player player, String title, int fadeIn, int stay, int fadeOut, TitleAction action){
 		if(!APIProvider.getAPI().is1_8(player)){
 			return;
 		}
 		try {
-			Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
+			//Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
 			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
 			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
 			
 			Object o = aChatSerializer.invoke(null, new Gson().toJson(title));
 			
-			Constructor<?> con = ProtocolInjector.PacketTitle.class.getConstructor(action.getClass(), IChatBaseComponent);
+			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(action.getVal(), (net.minecraft.server.v1_8_R1.IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			PacketPlayOutTitle showPacket = new PacketPlayOutTitle(TitleAction.TIMES.val, (net.minecraft.server.v1_8_R1.IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			
+			/*Constructor<?> con = ProtocolInjector.PacketTitle.class.getConstructor(action.getClass(), IChatBaseComponent);
 			
 			Object titlePacket = con.newInstance(action, IChatBaseComponent.cast(o));
-			Object showPacket = new ProtocolInjector.PacketTitle(PacketTitle.Action.TIMES, fadeIn, stay, fadeOut);
+			Object showPacket = new ProtocolInjector.PacketTitle(PacketTitle.Action.TIMES, fadeIn, stay, fadeOut);*/
 			
 			Reflect.sendPacket(player, showPacket);
 			Reflect.sendPacket(player, titlePacket);
@@ -51,7 +97,7 @@ public class Popups {
 			e.printStackTrace();
 		}
 	}
-	public static void sendTitleActionOnlyPacket(Player player, ProtocolInjector.PacketTitle.Action action){
+	/*public static void sendTitleActionOnlyPacket(Player player, ProtocolInjector.PacketTitle.Action action){
 		if(!APIProvider.getAPI().is1_8(player)){
 			return;
 		}
@@ -74,8 +120,8 @@ public class Popups {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	public static void sendTitlePacket(Player player, String title, ProtocolInjector.PacketTitle.Action action){
+	}*/
+	/*public static void sendTitlePacket(Player player, String title, ProtocolInjector.PacketTitle.Action action){
 		if(!APIProvider.getAPI().is1_8(player)){
 			return;
 		}
@@ -94,6 +140,6 @@ public class Popups {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 }

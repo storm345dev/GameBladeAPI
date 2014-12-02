@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
@@ -44,7 +43,7 @@ public class LinkShortener {
 			con.setUseCaches(false);
 			con.setDoInput(true);
 			con.setDoOutput(true);
-			con.setReadTimeout(15000); //3s timeout
+			con.setReadTimeout(15000); //15s timeout
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String line;
@@ -81,7 +80,8 @@ public class LinkShortener {
 		} catch (MalformedURLException e) {
 			throw new ShorteningError("URL was malformed!");
 		} catch (Exception e) {
-			throw new ShorteningError(e.getMessage()); //TODO ERROR
+			e.printStackTrace();
+			//throw new ShorteningError(e.getMessage()); //TODO ERROR
 		}
 		throw new ShorteningError("No URL response!");
 	}

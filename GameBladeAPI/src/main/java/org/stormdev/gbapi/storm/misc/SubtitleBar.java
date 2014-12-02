@@ -13,8 +13,17 @@ public class SubtitleBar {
 			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
 			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
 			
+			/*Class<?> c = PacketPlayOutChat.class;
+			for(Constructor<?> con:c.getDeclaredConstructors()){
+				StringBuilder sb = new StringBuilder();
+				for(Class<?> param:con.getParameterTypes()){
+					sb.append("[").append(param.getName()).append("]");
+				}
+				System.out.println(sb.toString());
+			}*/
+			
 			Object o = aChatSerializer.invoke(null, message);
-			Object packet = PacketPlayOutChat.getConstructor(IChatBaseComponent, int.class, boolean.class).newInstance(IChatBaseComponent.cast(o), (byte)2, true);
+			Object packet = PacketPlayOutChat.getConstructor(IChatBaseComponent, byte.class).newInstance(IChatBaseComponent.cast(o), (byte)2);
 			Reflect.sendPacket(player, packet);
 			
 		} catch (Exception e) {

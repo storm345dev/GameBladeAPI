@@ -93,8 +93,9 @@ public class IconMenu implements Listener {
 				inventory.setItem(i, optionIcons[i]);
 			}
 		}
-		player.setMetadata(metaData, new MetadataValue(null, plugin));
 		player.openInventory(inventory);
+		player.setMetadata(metaData, new MetadataValue(null, plugin));
+		//Bukkit.broadcastMessage("Player has got meta:"+metaData);
 	}
 
 	public void destroy() {
@@ -116,6 +117,10 @@ public class IconMenu implements Listener {
 			if(this.plugin == null){
 				Bukkit.broadcastMessage("PLUGIN NULL HALP HALP");
 			}
+			if(!event.getInventory().getName().equals(name)){
+				return;
+			}
+			Bukkit.broadcastMessage("PLAYER CLOSED INV, META REMOVED: "+metaData);
 			event.getPlayer().removeMetadata(metaData, this.plugin);
 			if(destroyOnClose){
 				destroy();
@@ -125,7 +130,6 @@ public class IconMenu implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	void onInventoryClick(InventoryClickEvent event) {
-		
 		if (event.getInventory().getTitle().equals(name) && enabled
 				&& event.getWhoClicked().hasMetadata(metaData)) {
 			event.setCancelled(true);

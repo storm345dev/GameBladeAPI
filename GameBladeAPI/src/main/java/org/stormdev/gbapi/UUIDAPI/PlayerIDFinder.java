@@ -108,9 +108,20 @@ public class PlayerIDFinder {
 		return retMojangID(playername);
 	}
 	
-	private static MojangID retMojangID(String playername){
+	private static MojangID retMojangID(final String playername){
 		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
-			OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
+			OfflinePlayer op;
+			try {
+				op = Bukkit.getScheduler().callSyncMethod(APIProvider.getAPI().getGBPlugin(), new Callable<OfflinePlayer>(){
+
+					@Override
+					public OfflinePlayer call() throws Exception {
+						return Bukkit.getOfflinePlayer(playername);
+					}}).get();
+			} catch (Exception e) {
+				e.printStackTrace();
+				op = null;
+			}
 			if(op != null){
 				UUID uid = op.getUniqueId();
 				if(uid != null){

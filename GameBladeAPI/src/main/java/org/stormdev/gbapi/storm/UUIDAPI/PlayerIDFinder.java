@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -108,9 +109,20 @@ public class PlayerIDFinder {
 		return retMojangID(playername);
 	}
 	
-	private static MojangID retMojangID(String playername){
+	private static MojangID retMojangID(final String playername){
 		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
-			OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
+			OfflinePlayer op;
+			try {
+				op = Bukkit.getScheduler().callSyncMethod(APIProvider.getAPI().getGBPlugin(), new Callable<OfflinePlayer>(){
+
+					@Override
+					public OfflinePlayer call() throws Exception {
+						return Bukkit.getOfflinePlayer(playername);
+					}}).get();
+			} catch (Exception e) {
+				e.printStackTrace();
+				op = null;
+			}
 			if(op != null){
 				UUID uid = op.getUniqueId();
 				if(uid != null){

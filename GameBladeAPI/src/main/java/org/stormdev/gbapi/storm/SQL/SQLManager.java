@@ -69,6 +69,25 @@ public class SQLManager {
 		} catch (SQLException e) {
 			return false;
 		}
+		catch (NullPointerException e) {
+			closeConnection();
+			sqlConnection.connect(); //Reconnect
+			c = sqlConnection.getConnection();
+			try {
+				c.setAutoCommit(true);
+			} catch (Exception e1) {
+				plugin.getLogger().info("Error connecting to SQL database!");
+			}
+			try {
+				if(!c.isValid(1000)){
+					return false;
+				}
+			} catch (Exception e1) {
+				return false;
+			}
+			plugin.getLogger().info("Successfully re-established connection with the SQL server!");
+			return false;
+		}
 		return true;
 	}
 	/**

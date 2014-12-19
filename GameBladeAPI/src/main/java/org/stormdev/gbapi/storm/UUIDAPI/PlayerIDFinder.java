@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -35,7 +34,7 @@ import com.google.common.collect.ImmutableList;
  * Use to retrive UUIDs
  *
  */
-public class PlayerIDFinder {
+public class PlayerIDFinder { //Copy of class in other package cus linkage errors
 	
 	public static void main(String[] args){
 		//test it

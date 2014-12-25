@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.MojangID;
+import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder.MojangID;
 
 /**
  * An event called when a player's UUID is loaded onJoin

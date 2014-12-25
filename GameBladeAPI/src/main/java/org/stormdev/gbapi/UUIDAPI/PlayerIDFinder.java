@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.core.APIProvider;
+import org.stormdev.gbapi.storm.UUIDAPI.OfflineUUIDCallable;
 
 import com.google.common.collect.ImmutableList;
 
@@ -75,6 +76,14 @@ public class PlayerIDFinder {
 		MojangID mid = retMojangID(player.getName());
 		player.setMetadata("uuid", new SimpleMeta(mid, Bukkit.getPluginManager().getPlugins()[0])); //Replace plugin with yours to use CORRECTLY, but it doesn't matter much
 		
+		try {
+			org.stormdev.gbapi.UUIDAPI.UUIDLoadEvent evt1 = new org.stormdev.gbapi.UUIDAPI.UUIDLoadEvent(player, new org.stormdev.gbapi.UUIDAPI.PlayerIDFinder.MojangID(mid.getName(), mid.getID()), getAsUUID(mid.getID()));
+			org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent evt2 = new org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent(player, new org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.MojangID(mid.getName(), mid.getID()), getAsUUID(mid.getID()));
+			Bukkit.getPluginManager().callEvent(evt1);
+			Bukkit.getPluginManager().callEvent(evt2);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	/*	try {
 			UUID id = getAsUUID(mid.getID());
 			PlayerReflect.setPlayerUUID(player, id);
@@ -108,16 +117,11 @@ public class PlayerIDFinder {
 		return retMojangID(playername);
 	}
 	
-	private static MojangID retMojangID(final String playername){
+	private static MojangID retMojangID(String playername){
 		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
 			OfflinePlayer op;
 			try {
-				op = Bukkit.getScheduler().callSyncMethod(APIProvider.getAPI().getGBPlugin(), new Callable<OfflinePlayer>(){
-
-					@Override
-					public OfflinePlayer call() throws Exception {
-						return Bukkit.getOfflinePlayer(playername);
-					}}).get();
+				op = Bukkit.getScheduler().callSyncMethod(APIProvider.getAPI().getGBPlugin(), new OfflineUUIDCallable(playername)).get();
 			} catch (Exception e) {
 				e.printStackTrace();
 				op = null;

@@ -29,12 +29,23 @@ public class CustomPlayerHeads {
         if (getWorldHandle == null || getWorldTileEntity == null || setGameProfile == null) {
             try {
                 getWorldHandle = getCraftClass("CraftWorld").getMethod("getHandle");
-                getWorldTileEntity = getMCClass("WorldServer").getMethod("getTileEntity", int.class, int.class, int.class);
+                getWorldTileEntity = getMCClass("WorldServer").getMethod("getTileEntity", Reflect.getNMSClass("BlockPosition"));
                 setGameProfile = getMCClass("TileEntitySkull").getMethod("setGameProfile", GameProfile.class);
             } catch (NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
             }
         }
+    }
+    
+    private static Object getWorldTileEntity(Object world, int x, int y, int z){
+    	try {
+    		Class<?> BlockPosition = Reflect.getNMSClass("BlockPosition");
+        	Object bp = BlockPosition.getConstructor(int.class, int.class, int.class).newInstance(x, y, z);
+        	return getWorldTileEntity.invoke(world, bp);
+    	} catch (Exception e){
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 
     // Example
@@ -73,7 +84,12 @@ public class CustomPlayerHeads {
         	throw new IllegalArgumentException("SkullItemMeta not an instance of CraftMetaSkull!");
         }
         try {
-			Field f = skullClass.getField("profile");
+        	/*Field[] fields = skullClass.getDeclaredFields();
+        	System.out.println(fields.length+" fields...");
+        	for(Field f:fields){
+        		System.out.println(f.getName());
+        	}*/
+			Field f = skullClass.getDeclaredField("profile");
 			f.setAccessible(true);
 			f.set(sm, getNonPlayerProfile(skinURL, randomName));
 			skull.setItemMeta(sm);
@@ -101,7 +117,7 @@ public class CustomPlayerHeads {
     // Method
     private static void setSkullProfile(Skull skull, GameProfile someGameprofile) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Object world = getWorldHandle.invoke(skull.getWorld());
-        Object tileSkull = getWorldTileEntity.invoke(world, skull.getX(), skull.getY(), skull.getZ());
+        Object tileSkull = getWorldTileEntity(world, skull.getX(), skull.getY(), skull.getZ());
         setGameProfile.invoke(tileSkull, someGameprofile);
     }
 

@@ -2,8 +2,9 @@ package org.stormdev.gbapi.storm.misc;
 
 import java.lang.reflect.Method;
 
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.entity.Player;
+
+import com.google.gson.Gson;
 
 
 public class SubtitleBar {

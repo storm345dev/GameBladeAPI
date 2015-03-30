@@ -8,12 +8,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSyntaxException;
 import org.stormdev.gbapi.storm.misc.Sch;
 
 import com.google.common.base.Charsets;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class LinkShortener {
 	public static class ShorteningError extends Exception {

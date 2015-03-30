@@ -1,17 +1,16 @@
 package org.stormdev.gbapi.storm.misc;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_8_R1.EnumTitleAction;
-import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
 
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.entity.Player;
 import org.stormdev.gbapi.core.APIProvider;
+
+import com.google.gson.Gson;
 
 public class Popups {
 	public static enum TitleAction {
@@ -83,8 +82,8 @@ public class Popups {
 			
 			Object o = aChatSerializer.invoke(null, new Gson().toJson(title));
 			
-			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(action.getVal(), (net.minecraft.server.v1_8_R1.IChatBaseComponent) o, fadeIn, stay, fadeOut);
-			PacketPlayOutTitle showPacket = new PacketPlayOutTitle(TitleAction.TIMES.val, (net.minecraft.server.v1_8_R1.IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(action.getVal(), (net.minecraft.server.v1_8_R2.IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			PacketPlayOutTitle showPacket = new PacketPlayOutTitle(TitleAction.TIMES.val, (net.minecraft.server.v1_8_R2.IChatBaseComponent) o, fadeIn, stay, fadeOut);
 			
 			/*Constructor<?> con = ProtocolInjector.PacketTitle.class.getConstructor(action.getClass(), IChatBaseComponent);
 			

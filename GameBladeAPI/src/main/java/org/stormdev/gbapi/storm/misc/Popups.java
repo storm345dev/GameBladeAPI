@@ -3,6 +3,8 @@ package org.stormdev.gbapi.storm.misc;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
@@ -36,12 +38,12 @@ public class Popups {
 			return;
 		}
 		try {
-			Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
-			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
-			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
+			/*Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
+			Class<?> ChatSerializer = Reflect.getNMSClass("IChatBaseComponent.ChatSerializer");
+			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);*/
 			
-			Object head = aChatSerializer.invoke(null, new Gson().toJson(header));
-			Object foot = aChatSerializer.invoke(null, new Gson().toJson(footer));
+			IChatBaseComponent head = ChatSerializer.a(new Gson().toJson(header));/*aChatSerializer.invoke(null, new Gson().toJson(header));*/
+			IChatBaseComponent foot = ChatSerializer.a(new Gson().toJson(footer));/*aChatSerializer.invoke(null, new Gson().toJson(footer));*/
 			
 			/*Class<?> c = PacketPlayOutPlayerListHeaderFooter.class;
 			for(Constructor<?> con:c.getDeclaredConstructors()){
@@ -57,11 +59,11 @@ public class Popups {
 				
 				Field headerField = pth.getClass().getDeclaredField("a");
 				headerField.setAccessible(true);
-				headerField.set(pth, IChatBaseComponent.cast(head));
+				headerField.set(pth, head);
 				
 				Field footerField = pth.getClass().getDeclaredField("b");
 				footerField.setAccessible(true);
-				footerField.set(pth, IChatBaseComponent.cast(foot));
+				footerField.set(pth, foot);
 				
 				Reflect.sendPacket(player, pth);
 			} catch (Exception e) {
@@ -77,13 +79,13 @@ public class Popups {
 		}
 		try {
 			//Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
-			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
-			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
+			/*Class<?> ChatSerializer = Reflect.getNMSClass("IChatBaseComponent.ChatSerializer");
+			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);*/
 			
-			Object o = aChatSerializer.invoke(null, new Gson().toJson(title));
+			Object o = ChatSerializer.a(new Gson().toJson(title));/*aChatSerializer.invoke(null, new Gson().toJson(title));*/
 			
-			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(action.getVal(), (net.minecraft.server.v1_8_R2.IChatBaseComponent) o, fadeIn, stay, fadeOut);
-			PacketPlayOutTitle showPacket = new PacketPlayOutTitle(TitleAction.TIMES.val, (net.minecraft.server.v1_8_R2.IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(action.getVal(), (IChatBaseComponent) o, fadeIn, stay, fadeOut);
+			PacketPlayOutTitle showPacket = new PacketPlayOutTitle(TitleAction.TIMES.val, (IChatBaseComponent) o, fadeIn, stay, fadeOut);
 			
 			/*Constructor<?> con = ProtocolInjector.PacketTitle.class.getConstructor(action.getClass(), IChatBaseComponent);
 			

@@ -12,6 +12,14 @@ public class Sch {
 		Bukkit.getScheduler().runTaskAsynchronously(APIProvider.getAPI().getGBPlugin(), run);
 	}
 	
+	public static void runSync(Runnable run){
+		if(Bukkit.isPrimaryThread()){
+			run.run();
+			return;
+		}
+		Bukkit.getScheduler().runTask(APIProvider.getAPI().getGBPlugin(), run);
+	}
+	
 	public static void notSync(){
 		if(Bukkit.isPrimaryThread()){
 			throw new RuntimeException("This must not be done in the main thread!");

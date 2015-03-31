@@ -1,6 +1,8 @@
 package org.stormdev.gbapi.storm.misc;
 
-import java.lang.reflect.Method;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
 
 import org.bukkit.entity.Player;
 
@@ -8,13 +10,13 @@ public class JSONChat {
 	public static void send(Player player, String chat){
 		try {
 			
-			Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
+			/*Class<?> IChatBaseComponent = Reflect.getNMSClass("IChatBaseComponent");
 			Class<?> PacketPlayOutChat = Reflect.getNMSClass("PacketPlayOutChat");
 			Class<?> ChatSerializer = Reflect.getNMSClass("ChatSerializer");
-			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);
+			Method aChatSerializer = ChatSerializer.getDeclaredMethod("a", String.class);*/
 			
-			Object o = aChatSerializer.invoke(null, chat);
-			Object packet = PacketPlayOutChat.getConstructor(IChatBaseComponent).newInstance(IChatBaseComponent.cast(o));
+			IChatBaseComponent o = ChatSerializer.a(chat);/*aChatSerializer.invoke(null, chat);*/
+			Object packet = new PacketPlayOutChat(o);/*PacketPlayOutChat.getConstructor(IChatBaseComponent).newInstance(IChatBaseComponent.cast(o));*/
 			Reflect.sendPacket(player, packet);
 			
 		} catch (Exception e) {
